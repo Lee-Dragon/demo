@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name='viewport' content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' />
+
+		<title>选彩票页面</title>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+	</head>
+
+	<body>
+		<header style="text-align: center;font-size: 32px;font-weight: 600;">lottery</header>
+		<h2>part1 多选</h2>
+		<div class="part part1" style="margin-bottom: 70px;">
+			<ul>
+				<li>01</li>
+				<li>02</li>
+				<li>03</li>
+				<li>04</li>
+				<li>05</li>
+				<li>06</li>
+				<li>07</li>
+				<li>08</li>
+				<li>09</li>
+				<li>10</li>
+				<li>11</li>
+				<li>12</li>
+			</ul>
+		</div>
+		<div class="show"></div>
+		<div class="lottery"></div>
+		<h2>part2 响应第一部分</h2>
+		<div class="part part2">
+			<ul>
+				<li>01</li>
+				<li>02</li>
+				<li>03</li>
+				<li>04</li>
+				<li>05</li>
+				<li>06</li>
+				<li>07</li>
+				<li>08</li>
+				<li>09</li>
+				<li>10</li>
+				<li>11</li>
+				<li>12</li>
+			</ul>
+		</div>
+		<h2>part3  单选</h2>
+		<div class="part part3">
+			<ul>
+				<li>01</li>
+				<li>02</li>
+				<li>03</li>
+				<li>04</li>
+				<li>05</li>
+				<li>06</li>
+				<li>07</li>
+				<li>08</li>
+				<li>09</li>
+				<li>10</li>
+				<li>11</li>
+				<li>12</li>
+			</ul>
+		</div>
+		<h2>part4  随机</h2>
+		<button class='btnRandom'>随机产生四位数字</button>
+		<div class="part part4">
+			<ul>
+				<li>01</li>
+				<li>02</li>
+				<li>03</li>
+				<li>04</li>
+				<li>05</li>
+				<li>06</li>
+				<li>07</li>
+				<li>08</li>
+				<li>09</li>
+				<li>10</li>
+				<li>11</li>
+				<li>12</li>
+			</ul>
+		</div>
+		
+		<script type="text/javascript">
+			var part1 = document.getElementsByClassName('part1').item(0);
+			var part2 = document.getElementsByClassName('part2').item(0);
+			var part3 = document.getElementsByClassName('part3').item(0);
+			var part4 = document.getElementsByClassName('part4').item(0);
+			var btn=document.getElementsByClassName('btnRandom').item(0);
+			var chooseItems = part1.getElementsByTagName('li');
+			var showItems = part2.getElementsByTagName('li');
+			var radioItems = part3.getElementsByTagName('li');
+			var randomItems = dd.getElementsByTagName('li');
+			var showInfo = document.getElementsByClassName('show').item(0);
+			var lottery = document.getElementsByClassName('lottery').item(0);
+			var choosed = [];
+			var hash = {};
+			var per = 10;
+
+			for(var i = 0; i < chooseItems.length; i++) {
+				chooseItems[i].index = i;
+				chooseItems[i].addEventListener('click', function(e) {
+					if(choosed.length < 4) {
+						if(!hash[this.index]) {
+							hash[this.index] = true;
+						} else {
+							hash[this.index] = false;
+						}
+						if(hash[this.index]) {
+							this.classList.add('active');
+							showItems[this.index].classList.add('active');
+							choosed.push(this.innerText);
+							if(choosed.length==4){
+								bb.style.background='pink';
+							}else{
+								bb.style.background='';
+							}
+						} else {
+							this.classList.remove('active');
+							showItems[this.index].classList.remove('active');
+							var ii = choosed.indexOf(this.innerText);
+							choosed.splice(ii, 1);
+							if(choosed.length==4){
+								bb.style.background='pink';
+							}else{
+								bb.style.background='';
+							}
+						}
+						showInfo.innerHTML = '共' + choosed.length + '注;共' + (per * choosed.length) + '元'
+						lottery.innerHTML='选择的号是：'+choosed.toString();
+					} else if(choosed.indexOf(this.innerText) == -1) {
+
+						alert('最多选四位');
+						return false;
+					} else {
+						this.classList.remove('active');
+						showItems[this.index].classList.remove('active');
+						var iii = choosed.indexOf(this.innerText);
+						choosed.splice(iii, 1);
+						if(choosed.length==4){
+								bb.style.background='pink';
+							}else{
+								bb.style.background='';
+							}
+						showInfo.innerHTML = '共' + choosed.length + '注;共' + (per * choosed.length) + '元'
+						lottery.innerHTML='选择的号是：'+choosed.toString();
+							
+					}
+
+				}, false)
+			}
+
+			for(var i = 0; i < radioItems.length; i++) {
+				radioItems[i].index = i;
+				radioItems[i].classList.remove('active');
+				radioItems[i].addEventListener('click', function(e) {
+					for(var j = 0; j < radioItems.length; j++) {
+						radioItems[j].classList.remove('active');
+					}
+					this.classList.add('active');
+				}, false)
+			}
+			
+			btn.addEventListener('click',function(){
+				for(var i=0;i<randomItems.length;i++){
+					randomItems[i].classList.remove('active');					
+				}
+				var arr=[];
+				while(arr.length<4){
+				var num=parseInt(Math.random()*12);
+					if(arr.indexOf(num)==-1){
+						arr.push(num);
+					}
+				}
+				for(var i=0;i<randomItems.length;i++){
+
+					if(arr.indexOf(i)>-1){
+						randomItems[i].classList.add('active');
+					}
+				}
+			},false)
+		</script>
+	</body>
+
+</html>

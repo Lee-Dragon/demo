@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>检测手机是否为横屏</title>
+	</head>
+	<style type="text/css">
+		/**竖屏 body显示红色**/
+		
+		.portrait body div {
+			background: red;
+		}
+		/**横屏 body显示蓝色**/
+		
+		.landscape body div {
+			background: blue;
+		}
+		
+		@media all and (orientation: portrait) {
+			body div {
+				background: red;
+			}
+		}
+		
+		@media all and (orientation: landscape) {
+			body div {
+				background: blue;
+			}
+		}
+	</style>
+
+	<body>
+		<div style="width: 400px;height: 400px;"></div>
+		<script type="text/javascript">
+			/**
+			 * orientation属性
+			 * 它有三个值：0,90，-90
+			 * 0为竖屏模式（portrait），-90意味着该设备横向旋转到右侧的横屏模式（landscape），而90表示该设备是横向旋转到左边的横屏模式（landscape）。
+			 * 还有一个是180，表示竖屏但是是翻转过来的竖屏模式。但这种模式至今尚未得到支持。
+			 */
+
+			/**
+			 * 兼容性
+			 * 有些设备并没有提供orientationchange事件，但不触发窗口的resize事件。并且media queries也不支持的情况下，我们该怎么办呢？
+			 * 可以用resize事件来判断。用innerWidth ， innerHeight，可以检索得到屏幕大小。依据宽和高的大小比较判断，宽小于高为竖屏，宽大与高就是横屏。
+			 */
+			/*(function() {
+				var init = function() {
+					var updateOrientation = function() {
+						var orientation = window.orientation;
+						switch(orientation) {
+							case 90:
+							case -90:
+								orientation = 'landscape'; //这里是横屏
+								break;
+							default:
+								orientation = 'portrait'; //这里是竖屏
+								break;
+						}
+						//html根据不同的旋转状态，加上不同的class，横屏加上landscape，竖屏
+						//加上portrait
+						document.body.parentNode.setAttribute('class', orientation);
+					};
+					// 每次旋转，调用这个事件。
+					window.addEventListener('orientationchange', updateOrientation, false);
+					// 事件的初始化
+					updateOrientation();
+				};
+				window.addEventListener('DOMContentLoaded', init, false);
+			})();*/
+
+			(function() {
+				console.log(window.orientation )
+				console.log(typeof window.onorientationchange )
+				var supportOrientation = (typeof window.orientation === 'number' &&
+					typeof window.onorientationchange === 'object');
+				var init = function() {
+					var htmlNode = document.body.parentNode,
+						orientation;
+					var updateOrientation = function() {
+						if(supportOrientation) {
+							orientation = window.orientation;
+							switch(orientation) {
+								case 90:
+								case -90:
+									orientation = 'landscape';
+									alert(orientation);
+									break;
+								default:
+									orientation = 'portrait';
+									alert(orientation);
+									
+									break;
+							}
+						} else {
+							orientation = (window.innerWidth > window.innerHeight) ? 'landscape' : 'portrait';
+									alert('resize:'+orientation);
+							
+						}
+						htmlNode.setAttribute('class', orientation);
+					};
+					if(supportOrientation) {
+						window.addEventListener('orientationchange', updateOrientation, false);
+					} else {
+						//监听resize事件
+						window.addEventListener('resize', updateOrientation, false);
+					}
+					updateOrientation();
+				};
+				window.addEventListener('DOMContentLoaded', init, false);
+			})();
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html >
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>图片翻转效果</title>
+		<style type="text/css">
+			.cate_list{margin: 2em auto;clear: left;height: 500px;}
+			.cate_list .cate_item{width: 45%;margin-right:3%;height: 400px;float: left;position: relative;perspective: 1000;}
+			.cate_list .cate_item .part{width:100%;height:100%;transition: 1.5s;transform-style: preserve-3d;}
+			.cate_list .cate_item.active .part{transform: rotateY(180deg);-webkit-transform: rotateY(180deg);
+	-moz-transform: rotateY(180deg);
+	-o-transform: rotateY(180deg);
+	-ms-transform: rotateY(180deg);}
+			.face,.back{width: 100%;height: 100%;position: absolute;backface-visibility: hidden;}
+			.face img{width: auto;height: auto;max-height: 100%;max-width: 100%;}
+			.back h3{	color: white;text-align: center;line-height: 150px;}
+			.back{transform: rotateY(180deg);background:-webkit-gradient(linear,left top,right bottom,from(#9576f7),to(#f776ee));
+     
+       }
+		</style>
+	</head>
+	<body>
+		<div class="cate_list">
+			<div class="cate_item">
+				<div class="part">
+				<div class="face"><img src="images/img1.jpg" /></div>
+				<div class="back"><h3>这是老大！</h3></div></div>
+			</div>
+			<div class="cate_item">
+				<div class="part"><div class="face"><img src="images/img2.jpg" /></div>
+				<div class="back"><h3>这是大姐头！</h3></div></div>
+			</div>
+			<div class="cate_item">
+				<div class="part"><div class="face"><img src="images/img3.jpg" /></div>
+				<div class="back"><h3>这是小清！</h3></div></div>
+			</div>
+			<div class="cate_item">
+				<div class="part"><div class="face"><img src="images/img4.jpg" /></div>
+				<div class="back"><h3>这是学霸！</h3></div></div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			/*
+			 * perspective属性
+			 * 透视  视角
+			 * perspective: 1000;---要进行旋转的容器的父级
+			 * transform-style: preserve-3d;transition---要进行旋转的容器 part
+			 * backface-visibility: hidden;----face  back
+			 * 其次 back也许Y轴旋转180deg
+			 */
+			var hash=[];
+			var tt=setInterval(function(){
+				var items=document.getElementsByClassName('cate_item');
+				prev=null;
+				var ranNum=parseInt(Math.random()*4);
+				if(hash.indexOf(ranNum)!==-1)return;
+				if(hash.indexOf(ranNum)==-1){
+					hash.push(ranNum);
+					items.item(ranNum).classList.add('active');
+					setTimeout(function(){
+						items.item(ranNum).classList.remove('active')
+						prev=ranNum;
+					},1000)
+					console.log(hash);
+					if(hash.length==4){
+						clearInterval(tt);
+						alert('ok');
+					location.href='lottery.html';
+					}
+				}else{
+
+//					if(hash.length==4){
+//						clearInterval(tt);
+//						alert('ok');
+//					location.href='lottery.html';
+//					}
+					
+				}
+				
+				
+			},3000)
+		</script>
+
+	</body>
+</html>
